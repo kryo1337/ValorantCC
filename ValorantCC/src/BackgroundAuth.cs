@@ -33,9 +33,8 @@ namespace ValorantCC
         public async void LoopCheck()
         {
             string baseLocalAppData = Environment.GetEnvironmentVariable("LocalAppData");
-            string riotLockfile = System.IO.Path.Combine(baseLocalAppData, "Riot Games", "Riot Client", "Config", "lockfile");
             string esportsLockfile = System.IO.Path.Combine(baseLocalAppData, "Riot Games", "Riot Client (Esports)", "Config", "lockfile");
-            string LockfilePath = System.IO.File.Exists(riotLockfile) ? riotLockfile : System.IO.File.Exists(esportsLockfile) ? esportsLockfile : riotLockfile;
+            string LockfilePath = esportsLockfile;
             bool lockfilexists = false;
             int FlagExistsCount = 0;
 
@@ -108,9 +107,8 @@ namespace ValorantCC
         public async Task<bool> LoginFlagExists()
         {
             string baseLocalAppData = Environment.GetEnvironmentVariable("LocalAppData");
-            string riotLogs = System.IO.Path.Combine(baseLocalAppData, "Riot Games", "Riot Client", "Logs", "Riot Client Logs");
             string esportsLogs = System.IO.Path.Combine(baseLocalAppData, "Riot Games", "Riot Client (Esports)", "Logs", "Riot Client Logs");
-            string logDirPath = System.IO.Directory.Exists(riotLogs) ? riotLogs : System.IO.Directory.Exists(esportsLogs) ? esportsLogs : riotLogs;
+            string logDirPath = esportsLogs;
             DirectoryInfo LogDir = new DirectoryInfo(logDirPath);
             var log = LogDir.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
 

@@ -48,9 +48,8 @@ namespace ValorantCC
         public async Task<AuthResponse> StartAuth()
         {
             string baseLocalAppData = Environment.GetEnvironmentVariable("LocalAppData");
-            string riotLockfile = Path.Combine(baseLocalAppData, "Riot Games", "Riot Client", "Config", "lockfile");
             string esportsLockfile = Path.Combine(baseLocalAppData, "Riot Games", "Riot Client (Esports)", "Config", "lockfile");
-            string LockfilePath = File.Exists(riotLockfile) ? riotLockfile : File.Exists(esportsLockfile) ? esportsLockfile : riotLockfile;
+            string LockfilePath = esportsLockfile;
 
             LocalCredentials = ObtainLockfileData(LockfilePath);
             if (!LocalCredentials.Success) return new AuthResponse() { Success = false, Response = "Credentials Failure: Please login to Riot Client or Start Valorant." };
