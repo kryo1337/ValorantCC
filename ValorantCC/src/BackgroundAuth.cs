@@ -32,7 +32,10 @@ namespace ValorantCC
         }
         public async void LoopCheck()
         {
-            string LockfilePath = Environment.GetEnvironmentVariable("LocalAppData") + "\\Riot Games\\Riot Client\\Config\\lockfile"; //Copy pasted from Auth.cs because why not? ..MJF-18/11/24: Because this should be in a variables file, that's why not. TODO: See comment
+            string baseLocalAppData = Environment.GetEnvironmentVariable("LocalAppData");
+            string riotLockfile = System.IO.Path.Combine(baseLocalAppData, "Riot Games", "Riot Client", "Config", "lockfile");
+            string esportsLockfile = System.IO.Path.Combine(baseLocalAppData, "Riot Games", "Riot Client (Esports)", "Config", "lockfile");
+            string LockfilePath = System.IO.File.Exists(riotLockfile) ? riotLockfile : System.IO.File.Exists(esportsLockfile) ? esportsLockfile : riotLockfile;
             bool lockfilexists = false;
             int FlagExistsCount = 0;
 
@@ -104,7 +107,11 @@ namespace ValorantCC
 
         public async Task<bool> LoginFlagExists()
         {
-            DirectoryInfo LogDir = new DirectoryInfo(Environment.GetEnvironmentVariable("LocalAppData") + "\\Riot Games\\Riot Client\\Logs\\Riot Client Logs");
+            string baseLocalAppData = Environment.GetEnvironmentVariable("LocalAppData");
+            string riotLogs = System.IO.Path.Combine(baseLocalAppData, "Riot Games", "Riot Client", "Logs", "Riot Client Logs");
+            string esportsLogs = System.IO.Path.Combine(baseLocalAppData, "Riot Games", "Riot Client (Esports)", "Logs", "Riot Client Logs");
+            string logDirPath = System.IO.Directory.Exists(riotLogs) ? riotLogs : System.IO.Directory.Exists(esportsLogs) ? esportsLogs : riotLogs;
+            DirectoryInfo LogDir = new DirectoryInfo(logDirPath);
             var log = LogDir.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
 
             string content;
